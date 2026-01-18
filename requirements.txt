@@ -5,3 +5,13 @@ beautifulsoup4
 python-dotenv
 pandas
 thefuzz
+pyzotero
+pymupdf
+numpy 
+scikit-learn
+matplotlib
+seaborn
+wordcloud
+bertopic
+sentence-transformers
+torch

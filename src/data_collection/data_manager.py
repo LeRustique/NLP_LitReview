@@ -29,6 +29,7 @@ def get_empty_record():
     return {
         "Source": "",
         "ID_Type": "", # PMID or DOI
+        "DOI": "", # Explicit DOI field
         "ID": "",
         "Title": "",
         "Abstract": "",

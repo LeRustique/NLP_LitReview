@@ -5,7 +5,12 @@ from src.data_collection.pubmed_fetcher import fetch_pubmed_results
 from src.data_collection.scholar_fetcher import fetch_scholar_results
 from src.data_collection.data_manager import save_to_csv
 from src.processing.deduplicator import deduplicate_data
+from src.processing.deduplicator import deduplicate_data
 from src.nlp_processor import NLPProcessor
+from src.manual_screener import manual_screen_articles
+from src.zotero_exporter import export_to_zotero
+
+
 
 def read_query_file(file_path):
     if not os.path.exists(file_path):
@@ -147,6 +152,20 @@ def main():
     df_articles.to_csv("results/screened_articles.csv", index=False, encoding='utf-8-sig')
     print(f"Screening complete. Results saved to results/screened_articles.csv")
     print(f"Included: {len(df_articles[df_articles['Included']==True])} papers.")
+    
+    # 7. Manual Screening
+    print("\n--- Starting Manual Screening (Human Loop) ---")
+    manual_screen_articles("results/screened_articles.csv", "results/final_selection.csv")
+
+    # 8. Export to Zotero
+    print("\n--- Exporting to Zotero ---")
+    
+    collection_name = input("Enter Zotero Collection Name (leave empty for root): ").strip()
+    if collection_name == "":
+        collection_name = None
+        
+    export_to_zotero("results/final_selection.csv", collection_name)
 
 if __name__ == "__main__":
+
     main()

@@ -20,18 +20,18 @@ class NLPProcessor:
         prompt = f"""
         You are a research assistant screening papers for a systematic review.
         
-        CRITERIA:
+        # CRITERIA:
         {criteria_text}
         
-        PAPER:
+        #PAPER:
         Title: {title}
         Abstract: {abstract}
         
-        TASK:
+        # TASK:
         Decide if this paper should be INCLUDED or EXCLUDED based on the criteria.
         Explain your reasoning briefly.
         
-        OUTPUT FORMAT:
+        # OUTPUT FORMAT:
         Return a single JSON object:
         {{
           "included": true,

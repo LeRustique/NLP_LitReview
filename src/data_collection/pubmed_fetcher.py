@@ -114,26 +114,15 @@ def parse_pubmed_article(article):
     if "ELocationID" in article_data:
         for eid in article_data["ELocationID"]:
             if eid.attributes.get("EIdType") == "doi":
-                r["ID_Type"] += "/DOI" # Just noting it has DOI
-                # We could store DOI separately if needed, but schema puts it in ID_Type? 
-                # User asked for "PMID / DOI (identifiants uniques)". 
-                # I'll put it in a separate field if I had one, but strict schema has ID.
-                # Let's append to ID or create a helper. 
-                # Actually, I'll store it in a generic way or stick to PMID as primary ID.
-                pass
-                
-    # Better DOI extraction from PubmedData
+                r["ID_Type"] += "/DOI"
+                r["DOI"] = str(eid)
+
+    # Better DOI extraction from PubmedData (Overrides ELocationID if present there)
     pubmed_data = article.get("PubmedData", {})
     if "ArticleIdList" in pubmed_data:
         for aid in pubmed_data["ArticleIdList"]:
             if aid.attributes.get("IdType") == "doi":
-                 # Append DOI to ID or just keep it there. 
-                 # Let's verify if user wanted separate columns. 
-                 # User said "PMID / DOI". I will add a DOI column to schema implicitly or reuse ID.
-                 # Let's update schema in data_manager later if needed, but for now I'll just append to a "DOI" if I could.
-                 # Actually, let's just stick to PMID for ID and maybe put DOI in "Link" or similar if needed.
-                 # Wait, for now simple.
-                 pass
+                 r["DOI"] = str(aid)
 
     # Publication Type
     if "PublicationTypeList" in article_data:
