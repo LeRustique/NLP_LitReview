@@ -55,3 +55,14 @@ def test_scholar_query(query):
 
     except Exception as e:
         return 0, str(e)
+
+if __name__ == "__main__":
+    query = "machine learning"
+    print(f"Testing Google Scholar query: '{query}'")
+    count, result_text = test_scholar_query(query)
+    
+    if count > 0:
+        print(f"Success! Found {count} results.")
+        print(f"Raw text: {result_text}")
+    else:
+        print(f"Failed or blocked. Message: {result_text}")

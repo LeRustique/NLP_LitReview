@@ -1,6 +1,9 @@
 import os
-from src.pubmed_tester import test_pubmed_query
-from src.scholar_tester import test_scholar_query
+import sys
+
+# Add project root to sys.path to allow imports from src
+sys.path.append(os.path.abspath(os.path.join(os.path.dirname(__file__), '../')))
+
 from src.data_collection.pubmed_fetcher import fetch_pubmed_results
 from src.data_collection.scholar_fetcher import fetch_scholar_results
 from src.data_collection.data_manager import save_to_csv
@@ -26,39 +29,21 @@ def main():
     pubmed_path = os.path.join("request", "request_pubmed.md")
     scholar_path = os.path.join("request", "request_googleSchola.md")
 
-    # 1. Test PubMed
+    # 1. Load Queries
     print(f"Reading PubMed query from {pubmed_path}...")
     pubmed_query = read_query_file(pubmed_path)
-    
     if pubmed_query:
         print(f"Query: {pubmed_query}")
-        print("Testing PubMed Query...")
-        count, error = test_pubmed_query(pubmed_query)
-        if error:
-            print(f"  -> Error: {error}")
-        else:
-            print(f"  -> Found {count} results.")
     else:
         print("No PubMed query found.")
 
-    print("")
-
-    # 2. Test Google Scholar
     print(f"Reading Google Scholar query from {scholar_path}...")
     scholar_query = read_query_file(scholar_path)
-
     if scholar_query:
         print(f"Query: {scholar_query}")
-        print("Testing Google Scholar Query...")
-        count, val_text = test_scholar_query(scholar_query)
-        if val_text and "Error" in val_text:
-             print(f"  -> Error: {val_text}")
-        elif val_text:
-             print(f"  -> Found ~{count} results. ({val_text})")
-        else:
-             print(f"  -> Verification failed (could not parse page).")
     else:
         print("No Google Scholar query found.")
+
 
     print("\n--- Starting Data Collection ---\n")
     
