@@ -1,8 +1,11 @@
 import requests
 import urllib.parse
 from thefuzz import fuzz
+from src.config import Config
 
-def enrich_with_crossref(record, email="pjcungi@gmail.com"):
+ Entrez.email = Config.ENTREZ_EMAIL
+
+def enrich_with_crossref(record, email=Entrez.email):
     """
     Queries CrossRef API with the title to find the DOI and Abstract.
     Updates the record in place if a good match is found.
